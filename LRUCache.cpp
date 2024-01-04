@@ -1,7 +1,3 @@
-//
-// Created by ttwag on 1/3/24.
-//
-
 #include "LRUCache.h"
 #include <unordered_map>
 
@@ -13,12 +9,11 @@ struct LRUCache::cacheNode {
 };
 
 LRUCache::LRUCache(int capacity) : max_capacity(capacity), curr_capacity(0), LRU(-1) {
-    //std::unordered_map<int, cacheNode*> cache_table;
     head = new cacheNode(-1, -1);
 }
 
 int LRUCache::get(int key) {
-// If the key is present
+    // If the key is present
     if (cache_table.find(key) != cache_table.end()) {
         cacheNode* MRU = cache_table[key];
         if (head->next == MRU) return MRU->key_val.second;
@@ -75,6 +70,12 @@ void LRUCache::put(int key, int value) {
     }
     curr_capacity++;
     return;
+}
+
+// Read the Cache
+int LRUCache::read(int address) {
+    ;
+    // If address is in the cache, return it and make the address block
 }
 
 LRUCache::~LRUCache() {};
