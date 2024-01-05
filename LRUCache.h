@@ -4,19 +4,29 @@
 
 
 class LRUCache {
-private:
-    struct cacheNode;
-    int max_capacity;
-    int curr_capacity;
-    std::unordered_map<int, cacheNode*> cache_table;
-    int LRU;
-    cacheNode* head;
 public:
     LRUCache(int capacity);
-    int get(int key);
-    void put(int key, int value);
-    int read(int address);
+    bool read(int address);
+    void printCache();
     ~LRUCache();
+private:
+struct cacheBlock {
+    int tag;
+    cacheBlock* next;
+    cacheBlock* prev;
+    cacheBlock(int x): tag(x), next(nullptr), prev(nullptr){};
+};
+std::unordered_map<int, cacheBlock*> cacheSet;
+cacheBlock* head;
+int setCapacity;
+int blockCount;
+double readCount;
+double hitCount;
+double missCount;
+int LRU; // LRU is always the last node of the cacheBlock linked list
+int getTag(int address);
+void blockToMRU(int tag, cacheBlock* block, bool present);
+void evict();
 };
 
 

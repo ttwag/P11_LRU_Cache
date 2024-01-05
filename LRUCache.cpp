@@ -1,81 +1,113 @@
 #include "LRUCache.h"
 #include <unordered_map>
+#include <iostream>
 
-struct LRUCache::cacheNode {
-    std::pair<int, int> key_val = {};
-    cacheNode* next;
-    cacheNode* prev;
-    cacheNode(int x, int y): key_val{x, y}, next(nullptr), prev(nullptr){};
-};
+LRUCache::LRUCache(int capacity) : blockCount(0), readCount(0), hitCount(0), missCount(0), LRU(-1){
+    if (capacity <= 0) throw std::invalid_argument("Invalid Cache Size");
+    setCapacity = capacity;
+    blockCount = 0, readCount = 0, hitCount = 0, missCount = 0;
+    LRU = -1;
+    head = new cacheBlock(-1);
+}
+bool LRUCache::read(int address) {
+    // Extracts the tag from the memory address
+    int tag = getTag(address);
+    if (address > 0xFFFF) throw std::invalid_argument("Invalid Address: Input Address Must Be 16 bits");
+    if (address < 0) throw std::invalid_argument("Invalid Address: Input Must Be An Positive Integer");
+    readCount++;
+//    int tag = address;
 
-LRUCache::LRUCache(int capacity) : max_capacity(capacity), curr_capacity(0), LRU(-1) {
-    head = new cacheNode(-1, -1);
+    // If the tag is in the cache set
+    if (cacheSet.find(tag) != cacheSet.end()) {
+        blockToMRU(tag, cacheSet[tag], true);
+        hitCount++;
+        return true;
+    }
+
+    // If the tag is not in the cache set
+    cacheBlock* block = new cacheBlock(tag);
+    if (blockCount == setCapacity) {
+        evict();
+        blockCount--;
+    }
+    cacheSet[tag] = block;
+    blockToMRU(tag, block, false);
+    blockCount++;
+    missCount++;
+    return false;
 }
 
-int LRUCache::get(int key) {
-    // If the key is present
-    if (cache_table.find(key) != cache_table.end()) {
-        cacheNode* MRU = cache_table[key];
-        if (head->next == MRU) return MRU->key_val.second;
-        // Move the key to most recently used
-        if (LRU == MRU->key_val.first) LRU = MRU->prev->key_val.first;
-        cacheNode* temp = head->next;
-        MRU->prev->next = MRU->next;
-        if (MRU->next) MRU->next->prev = MRU->prev;
-        temp->prev = MRU;
-        MRU->next = temp;
-        MRU->prev = head;
-        head->next = MRU;
-        return MRU->key_val.second;
+void LRUCache::printCache() {
+    cacheBlock* printer = head->next;
+    double hitRate = hitCount / readCount * 100;
+    double missRate = missCount / readCount * 100;
+    std::cout<<"MRU to LRU"<<std::endl;
+    std::cout<<"Hit Rate: "<<hitRate<<std::endl;
+    std::cout<<"Miss Rate: "<<missRate<<std::endl;
+    std::cout<<"Memory Address"<<std::endl;
+    while (printer != nullptr) {
+        std::cout<<std::hex<<printer->tag<<std::endl;
+        printer = printer->next;
     }
-    // If the key is not present
-    return -1;
 }
 
-void LRUCache::put(int key, int value) {
-// Update the old key if it's present
-    if (cache_table.find(key) != cache_table.end()) {
-        // Move the key to most recently used
-        get(key);
-        cache_table[key]->key_val.second = value;
-        return;
+LRUCache::~LRUCache() {
+    cacheBlock* remover = head->next;
+    head->next = nullptr;
+    while (remover) {
+        cacheBlock* temp = remover->next;
+        delete remover;
+        remover = temp;
     }
-
-    // Insert a new key if it's not present
-    cacheNode* MRU = new cacheNode(key, value);
-    cache_table[key] = MRU;
-
-    // Discard a key if the table is full
-    if (curr_capacity == max_capacity) {
-        cacheNode* new_LRU = cache_table[LRU]->prev;
-        new_LRU->next = nullptr;
-        delete cache_table[LRU];
-        cache_table.erase(LRU);
-        LRU = new_LRU->key_val.first;
-        curr_capacity--;
-    }
-    // Move MRU next to head as most recently used
-    if (!head->next) {
-        head->next = MRU;
-        MRU->prev = head;
-        // Initialize the LRU
-        LRU = key;
-    }
-    else {
-        cacheNode* temp = head->next;
-        temp->prev = MRU;
-        MRU->next = temp;
-        head->next = MRU;
-        MRU->prev = head;
-    }
-    curr_capacity++;
     return;
 }
 
-// Read the Cache
-int LRUCache::read(int address) {
-    ;
-    // If address is in the cache, return it and make the address block
+// If a block is present (1), make it MRU. If not, create a block and make it MRU.
+void LRUCache::blockToMRU(int tag, cacheBlock* block, bool present) {
+    // If the block is present
+    if (present) {
+        // Return if the block is MRU currently
+        if (head->next == block) return;
+
+        cacheBlock* temp = head->next;
+        block->prev->next = block->next;
+        // Make sure the LRU is passed to the prev cacheBlock
+        if (LRU == block->tag) LRU = block->prev->tag;
+        else block->next->prev = block->prev;
+        temp->prev = block;
+        block->next = temp;
+        block->prev = head;
+        head->next = block;
+        return;
+    }
+
+    // If there's no block
+    if (!head->next) {
+        head->next = block;
+        block->prev = head;
+        // Initialize the LRU
+        LRU = tag;
+    }
+    // If there are blocks
+    else {
+        cacheBlock* temp = head->next;
+        temp->prev = block;
+        block->next = temp;
+        head->next = block;
+        block->prev = head;
+    }
+    return;
+}
+    int LRUCache::getTag(int address) {
+        // Extracts the tag
+        return (0x3 | address) >> 2;
+    }
+void LRUCache::evict() {
+    // Remove LRU;
+    cacheBlock* new_LRU = cacheSet[LRU]->prev;
+    new_LRU->next = nullptr;
+    delete cacheSet[LRU];
+    cacheSet.erase(LRU);
+    LRU = new_LRU->tag;
 }
 
-LRUCache::~LRUCache() {};
