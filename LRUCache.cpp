@@ -38,16 +38,22 @@ bool LRUCache::read(int address) {
 }
 
 void LRUCache::printCache() {
-    cacheBlock* printer = head->next;
     double hitRate = hitCount / readCount * 100;
     double missRate = missCount / readCount * 100;
-    std::cout<<"MRU to LRU"<<std::endl;
     std::cout<<"Hit Rate: "<<hitRate<<std::endl;
     std::cout<<"Miss Rate: "<<missRate<<std::endl;
     std::cout<<"Memory Address"<<std::endl;
-    while (printer != nullptr) {
-        std::cout<<std::hex<<printer->tag<<std::endl;
-        printer = printer->next;
+    cacheBlock* printer = cacheSet[LRU];
+    std::cout<<"LRU:    "<<std::hex<<(printer->tag << 2)<<std::endl;
+    printer = printer->prev;
+    while (printer != head) {
+        if (printer->prev == head) {
+            std::cout<<"MRU:    "<<std::hex<<(printer->tag << 2)<<std::endl;
+        }
+        else {
+            std::cout<<"        "<<std::hex<<(printer->tag << 2)<<std::endl;
+        }
+        printer = printer->prev;
     }
 }
 
