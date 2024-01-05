@@ -10,25 +10,28 @@ public:
     void printCache();
     ~LRUCache();
 private:
-// Definition of a cacheBlock as a linked list
+// Definition of a cacheBlock as a doubly linked list
 struct cacheBlock {
     int tag;
     cacheBlock* next;
     cacheBlock* prev;
     cacheBlock(int x): tag(x), next(nullptr), prev(nullptr){};
 };
+
 // Attributes
+// cacheSet uses an unordered_map to look up the tag
 std::unordered_map<int, cacheBlock*> cacheSet;
-cacheBlock* head;
+cacheBlock* head; //head is always the beginning of the cacheBlock linked list
 int setCapacity;
 int blockCount;
 double readCount;
 double hitCount;
 double missCount;
-int LRU; // LRU is always the last node of the cacheBlock linked list
+int LRU; // LRU is always the last block's tag in the cacheBlock linked list
+
 // Methods
-int getTag(int address);
 void blockToMRU(int tag, cacheBlock* block, bool present);
+int getTag(int address);
 void evict();
 };
 #endif

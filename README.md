@@ -21,5 +21,8 @@ Simulate a fully-associative LRU cache
 ## How to Use this Program
 * read: read the data of a memory address from the cache. If it's not present, move it to the cache.
 
-
+## Acronym
+LRU
+MRU
+LSB
 
