@@ -4,14 +4,13 @@ Simulate a fully-associative LRU cache
 ![Figure1](./Figure1.png)
 
 # Introduction
-* Cache is an important part of the CPU. It exploits spatial and temporal locality of program and stores frequently accessed items near CPU for quick access.
+* Cache is an important part of the CPU. It exploits the spatial and temporal locality of the program, and stores frequently accessed items near the CPU for quick access.
 * The purpose of this program is to simulate a basic cache and display the hit and miss rate.
 * To understand the parameters of this cache simulation program, I recommend you to check out the reading list in the Helpful Link section. 
 ## Cache Parameter
-* In a fully associative cache, the cache table has multiple cache blocks for a single set.
-* Each cache block has a tag derived from the memory address.
-* Each memory address is 16 bits (EX: 0x0000) and stores 1 byte of data.
 * In this design, our cache has 1 set and holds user-decidable number of blocks, each with 4 bytes of data and is byte-addressable.
+* Each cache block has a tag extracted from the memory address.
+* Each memory address is 16 bits (EX: 0x0000) and stores 1 byte of data.
 * This is an LRU cache. 
 * There is no valid bit or data in the cache.
 * There is only a read operation and no write operation because there's no data.
@@ -116,6 +115,7 @@ LRU:    1110
   * LRUCache.cpp: contains the class implementation of the LRUCache class.
   * LRUCache.h: the class header file that contains the LRUCache class declaration.
   * CMakeLists.txt: builds the main.cpp.
+  * Figure1.png: the image at the beginning of the README.
   * tests: test directory
     * test.cpp: contains the test cases and runs them.
     * CMakeLists.txt: builds the test.cpp and imports the GoogleTest framework.
