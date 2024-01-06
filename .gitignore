@@ -12,3 +12,6 @@ cmake-build-debug
 _deps
 .idea
 .DS_Store
+lib
+P11_LRU_Cache
+LRU_Cache_Test

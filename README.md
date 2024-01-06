@@ -17,7 +17,7 @@ Simulate a fully-associative LRU cache
 
 ## Memory Address Translation
 * Since the cache only has a set, there's no index bit.
-* Since each block stores 4 bytes, the Block Offset has $log_24 = 2$ bits.
+* Since each block stores 4 bytes, the Block Offset has $log_2 4 = 2$ bits.
 * To get the number of tag bits, subtract the Block Offset bits from the total bits and we get 14 bits.
 
  16 Bits Memory Address
@@ -33,7 +33,7 @@ Simulate a fully-associative LRU cache
 | Valid | Tag | Data |
 |------:|----:|-----:|
 
-### Acronym and Definition
+## Acronym and Definition
 * **LRU (Least Recently Used)** - a cache replacement policy when the cache is full. It replaces the least-recently used block by the new block. 
 * **MRU (Most Recently Used)** - the most recently used (read or write) block in the cache.  
 * **LSB (Least Significant Bit)** - the right most bit in a binary number.
@@ -58,7 +58,7 @@ make
 ### Run the Test
 * This program is tested with the GoogleTest C++ framework.  
 * There are 30 test cases to test this cache simulation program.
-* 5 of them test for unexpected inputs and the 25 test for LRU replacement policy.
+* 5 of them test for unexpected inputs and the other 25 tests for LRU replacement policy.
 * You can edit the test inside the test.cpp using GoogleTest's syntax.
 * To run the test, navigate inside the tests directory, then 
 ```
@@ -74,7 +74,7 @@ This program is packaged into a LRUCache class.
 
 You could interact with the LRUCache in the main.cpp or import the defined LRUCache class into your own C++ file.
 
-Read about the implementation details in the comments inside of C++ and header files.
+Read about the implementation details in the comments inside C++ class and header files.
 ### Object Initialization
 * Initialize a LRUCache object and input the number of blocks you want into the constructor.
 ```

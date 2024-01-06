@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <climits>
 #include "../LRUCache.h"
 /*
  * Program's Vulnerability:
