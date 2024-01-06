@@ -2,19 +2,12 @@
 
 int main() {
     // Demo
-    LRUCache* cache = new LRUCache(4);
-    cache->read(0x1234);
-    cache->read(0x1235);
-    cache->read(0x1236);
-    cache->read(0x1235);
-    cache->read(0x1238);
-    cache->read(0x1239);
-    cache->read(0x1239);
-    cache->read(0xFFFF);
-    cache->read(0xFFFE);
-    cache->read(0xFFFE);
-    cache->read(0x3245);
-    cache->read(0x3333);
-    cache->printCache();
+    LRUCache* myCache = new LRUCache(1);
+    myCache->read(0x1111);  // If the cache is empty, this is a cache miss
+    myCache->read(0x1111);  // This is a cache hit
+    myCache->read(0x1113);  // This is a cache hit, 0x1111 and 0x1113 has the same tag
+    myCache->read(0x1121);  // This is a cache miss, LRU will replace 0x1111's tag with that of 0x1121
+    myCache->read(0x1111);  // This is a cache miss,
+    myCache->printCache();
     return 0;
 }

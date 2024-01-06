@@ -20,6 +20,7 @@ LRUCache::LRUCache(int capacity) {
  *
  * Description: read() has a time complexity of O(1).
  *              It looks up a tag through the hash-map (cacheSet) and uses a doubly linked list (cacheBlock) to record the ordering for the LRU policy.
+ *              Each tag is associated with a cacheBlock pointer in the cacheSet, so we could locate each cacheBlock in constant time.
  *
  *              The read method takes the input memory address, extracts the tag bits, then checks if the tag is present in the cacheSet.
  *              If it's present (cache hit), reorder the cacheBlock as the MRU.
@@ -120,6 +121,7 @@ void LRUCache::blockToMRU(int tag, cacheBlock* block, bool present) {
         if (LRU == block->tag) LRU = block->prev->tag;
         //If the block is not LRU, it means that block->next != nullptr, so we could access it
         else block->next->prev = block->prev;
+
 
         temp->prev = block;
         block->next = temp;
