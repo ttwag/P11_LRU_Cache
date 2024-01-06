@@ -34,7 +34,7 @@ Simulate a fully-associative LRU cache
 |------:|----:|-----:|
 
 ## Acronym and Definition
-* **LRU (Least Recently Used)** - a cache replacement policy when the cache is full. It replaces the least-recently used block by the new block. 
+* **LRU (Least-Recently-Used)** - a cache replacement policy when the cache is full. It replaces the least-recently-used block by the new block. 
 * **MRU (Most Recently Used)** - the most recently used (read or write) block in the cache.  
 * **LSB (Least Significant Bit)** - the right most bit in a binary number.
 * **Cache Hit** - when you read a cache, and the data stored in the memory address you want to read **is in the cache**. Since there's no data in this cache, finding the same tag in cache is a cache hit.  
@@ -98,7 +98,7 @@ myCache->read(0x1111);  // This is a cache miss,
 ```
 
 ### Print the Cache
-* You could print the tags in the cache with the print() method. It displays the least recently used tag from top to bottom.
+* You could print the tags in the cache with the print() method. It displays the least-recently-used tag from top to bottom.
 ```
 myCache->print();  // Print the cache in the last example
 
