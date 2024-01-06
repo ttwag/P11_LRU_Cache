@@ -1,6 +1,8 @@
 # P11_LRU_Cache
 Simulate a fully-associative LRU cache
 
+![Figure1](./Figure1.png)
+
 # Introduction
 * Cache is an important part of the CPU. It exploits spatial and temporal locality of program and stores frequently accessed items near CPU for quick access.
 * The purpose of this program is to simulate a basic cache and display the hit and miss rate.
@@ -122,6 +124,7 @@ LRU:    1110
 CLion 2023.3.2
 
 ## Helpful Link
-* I did this project after completing the class, [EEC 170](https://ece.ucdavis.edu/course-catalog), at UC Davis. I thought it would be nice to program a small cache. 
-* For understanding the basics of cache: [Computer Organization and Design RISC-V 2nd Edition Section](https://www.amazon.com/Computer-Organization-Design-RISC-V-Architecture-dp-0128203315/dp/0128203315/ref=dp_ob_title_bk) 5.1 - 5.3
+* I did this project after completing the class, [EEC 170](https://ece.ucdavis.edu/course-catalog), at UC Davis. I thought it would be nice to program a basic cache.
+* If you want to program a basic cache as well, check out this [LeetCode Problem](https://leetcode.com/problems/lru-cache/).
+* For understanding the basics of cache: [Computer Organization and Design RISC-V 2nd Edition](https://www.amazon.com/Computer-Organization-Design-RISC-V-Architecture-dp-0128203315/dp/0128203315/ref=dp_ob_title_bk) Section 5.1 - 5.3
 * [GoogleTest](https://github.com/google/googletest)
