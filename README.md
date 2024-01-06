@@ -40,9 +40,40 @@ Simulate a fully-associative LRU cache
 * **Cache Miss** - when you read a cache, and the data stored in the memory address you want to read is **not in the cache**. The cache will then bring the data from the RAM. Here, not finding the tag is a cache miss. 
 
 ## Installation
+### Linux
+```
+// In a directory that you want to download this project
+
+git clone "https://github.com/ttwag/P11_LRU_Cache"
+
+// Run the demo
+
+cd P11_LRU_Cache
+cmake .
+make
+./P11_LRU_Cache
+```
+
+### Run the Test
+* This program is tested with the GoogleTest C++ framework.  
+* There are 30 test cases to test this cache simulation program.
+* 5 of them test for unexpected inputs and the 25 test for LRU replacement policy.
+* You can edit the test inside the test.cpp using GoogleTest's syntax.
+* To run the test, navigate inside the tests directory, then 
+```
+// Inside of tests directory
+
+cmake .
+make
+./LRU_Cache_Test
+```
 
 ## How to Use this Program
-You could read about the implementation details in the comments inside of C++ and header files.
+This program is packaged into a LRUCache class.
+
+You could interact with the LRUCache in the main.cpp or import the defined LRUCache class into your own C++ file.
+
+Read about the implementation details in the comments inside of C++ and header files.
 ### Object Initialization
 * Initialize a LRUCache object and input the number of blocks you want into the constructor.
 ```
@@ -71,18 +102,26 @@ myCache->read(0x1111);  // This is a cache miss,
 myCache->print();  // Print the cache in the last example
 
 // Console Output
-Hit Rate: 40
-Miss Rate: 60
-Memory Address
+Hit Rate (%): 40
+Miss Rate (%): 60
+Stored Tags
 LRU:    1110
 ```
 
-### test
+## File Structure and Dependency
+* P11_LRU_Cache
+  * main.cpp: runs the demo program by making a LRUCahe object.
+  * LRUCache.cpp: contains the class implementation of the LRUCache class.
+  * LRUCache.h: the class header file that contains the LRUCache class declaration.
+  * CMakeLists.txt: builds the main.cpp.
+  * tests: test directory
+    * test.cpp: contains the test cases and runs them.
+    * CMakeLists.txt: builds the test.cpp and imports the GoogleTest framework.
 
 ## Development Environment
+CLion 2023.3.2
 
 ## Helpful Link
-Computer Architecture 5.1 - 5.3
-
-
-
+* I did this project after completing the class, [EEC 170](https://ece.ucdavis.edu/course-catalog), at UC Davis. I thought it would be nice to program a small cache. 
+* For understanding the basics of cache: [Computer Organization and Design RISC-V 2nd Edition Section](https://www.amazon.com/Computer-Organization-Design-RISC-V-Architecture-dp-0128203315/dp/0128203315/ref=dp_ob_title_bk) 5.1 - 5.3
+* [GoogleTest](https://github.com/google/googletest)

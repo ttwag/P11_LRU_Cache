@@ -65,9 +65,9 @@ bool LRUCache::read(int address) {
 void LRUCache::printCache() {
     double hitRate = hitCount / readCount * 100;
     double missRate = missCount / readCount * 100;
-    std::cout<<"Hit Rate: "<<hitRate<<std::endl;
-    std::cout<<"Miss Rate: "<<missRate<<std::endl;
-    std::cout<<"Memory Address"<<std::endl;
+    std::cout<<"Hit Rate (%): "<<hitRate<<std::endl;
+    std::cout<<"Miss Rate (%): "<<missRate<<std::endl;
+    std::cout<<"Stored Tags"<<std::endl;
     cacheBlock* printer = cacheSet[LRU];
     std::cout<<"LRU:    "<<std::hex<<(printer->tag)<<std::endl;
     printer = printer->prev;
